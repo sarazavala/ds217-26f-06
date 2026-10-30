@@ -1,0 +1,10 @@
+table,issue,decision,reason
+patients,exact duplicate rows,Removed exact duplicates and kept the first copy.,Repeated copies represent the same patient and should not be counted twice.
+patients,gender spellings that are not a code,"Stripped spaces, lowercased spellings, mapped them to F, M, or X, and converted to category.","Equivalent spellings should share one code, while blank and unknown values remain missing."
+patients,site codes needing normalization,Uppercased site codes and removed all spaces and hyphens.,Formatting differences should not prevent records for the same site from matching.
+patients,birth_year sentinel 9999,Replaced 9999 with missing and converted birth_year to Int64.,9999 means the birth year was not recorded and is not an actual birth year.
+visits,weight column named wt_kg in visits_south.csv,Renamed wt_kg to weight_kg before stacking the visit files.,Both columns contain weight in kilograms and need the same name to stack correctly.
+visits,sbp sentinel 999 and readings outside 70 through 250,Kept readings from 70 through 250 inclusive and replaced all other values with missing.,"999 means not measured, and values outside the specified range violate the data contract."
+visits,impossible and loosely written visit dates,Parsed only exact YYYY-MM-DD text representing valid calendar dates and made other values missing.,The contract requires both the specified date format and a date that exists.
+visits,repeated patient_id and visit pairs,"Removed exact duplicates, then sorted by visit_time and kept the later reading for each pair.","Rechecks belong to the same patient visit, and the assignment specifies keeping the later measurement."
+sites,repeated site_code rows,Keep only rows with record_status equal to current when creating sites_current in Task 4.2.,Retired site records would create duplicate matches and introduce outdated site names.
